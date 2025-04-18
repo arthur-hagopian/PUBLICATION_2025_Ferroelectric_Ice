@@ -143,7 +143,7 @@ def load_bader(file_paths):
             result[path] = value
     return result
 
-def collect_data_files(base_path='.'):
+def collect_data_files(base_path):
     data_files = {
         "CONTCAR": [],
         "DOSCAR": [],
@@ -154,7 +154,7 @@ def collect_data_files(base_path='.'):
             data_files[file_path.name].append(file_path)
     return data_files
 
-def load_all_data(base_path='.'):
+def load_all_data(base_path):
     
     files = collect_data_files(base_path)
 
@@ -263,7 +263,7 @@ def plot_pdos_all_bilayers(data, base_path, folder_label, z_bounds, max_layers=6
         # 3) plot
         plot_pdos(dos["energy"], avg_dos, labels, colors, alphas)
 
-def plot_bilayer_avg_charge(data, base_path, z_bounds, max_layers=6):
+def plot_bilayer_avg_charge(data, base_path, folder_label, z_bounds, max_layers=6):
     """
 
     """
@@ -276,7 +276,7 @@ def plot_bilayer_avg_charge(data, base_path, z_bounds, max_layers=6):
     for n in range(1, max_layers + 1):
         # locate Bader file for this bilayer_n
         bader_key = next(
-            (k for k in data['bader'] if f"{base_path}/bilayer_{n}" in str(k.parent)),
+            (k for k in data['bader'] if f"{base_path}/{folder_label}_{n}" in str(k.parent)),
             None
         )
         if bader_key is None:
@@ -323,17 +323,101 @@ def plot_bilayer_avg_charge(data, base_path, z_bounds, max_layers=6):
     plt.tight_layout()
     plt.show()
 
+def plot_interbilayer_distance(data, base_path, z_bounds, lz, max_layers=6):
+    """
+
+    """
+    base_colors = ['blue', 'red', 'green', 'orange', 'purple', 'pink']
+    fig, ax = plt.subplots(figsize=(6, 4))
+    legend_done = set()
+
+    for n in range(2, max_layers + 1):
+        bader_key = next(
+            (k for k in data['bader'] if f"{base_path}/bilayer_{n}" in str(k.parent)),
+            None
+        )
+        if bader_key is None:
+            logger.warning(f"No Bader data for bilayer_{n}, skipping")
+            continue
+
+        contcar = bader_key.parent / 'CONTCAR'
+        h_pos = data['H_positions'].get(contcar)
+        o_pos = data['O_positions'].get(contcar)
+        au_pos = data['Au_positions'].get(contcar)
+
+        if h_pos is None or o_pos is None:
+            logger.warning(f"Missing positions for bilayer_{n}, skipping")
+            continue
+
+        # Ensure arrays have correct shape
+        au_pos = np.array(au_pos).reshape(-1, 3) if au_pos is not None else np.empty((0, 3))
+        h_pos = np.array(h_pos).reshape(-1, 3)
+        o_pos = np.array(o_pos).reshape(-1, 3)
+
+        # Layer assignment
+        groups, labels, colors, alphas = slice_z_layers(h_pos, o_pos, au_pos, z_bounds)
+        pos_all = np.concatenate([au_pos, h_pos, o_pos])
+
+        # Compute z positions (converted to angstrom)
+        layer_z_avgs = []
+        for layer in range(n):
+            idx_h = [i - 1 for i in groups[2 * layer]]
+            idx_o = [i - 1 for i in groups[2 * layer + 1]]
+            if not idx_h or not idx_o:
+                logger.warning(f"Empty group in bilayer_{n}, layer {layer+1}, skipping")
+                continue
+            try:
+                z_h = pos_all[idx_h, 2] * lz
+                z_o = pos_all[idx_o, 2] * lz
+                avg_z = np.mean(np.concatenate([z_h, z_o]))
+                layer_z_avgs.append(avg_z)
+            except IndexError as e:
+                logger.error(f"Index error for bilayer_{n}, layer {layer+1}: {e}")
+                continue
+
+        if len(layer_z_avgs) < 2:
+            logger.warning(f"Not enough valid layers in bilayer_{n}, skipping")
+            continue
+
+        layer_z_avgs = sorted(layer_z_avgs)
+        interlayer_distances = np.diff(layer_z_avgs)
+
+        for i, d in enumerate(interlayer_distances):
+            c = base_colors[i % len(base_colors)]
+            label = f"Bilayer {i+1}"
+            if label not in legend_done:
+                ax.scatter(n, d, color=c, label=label, zorder=3)
+                legend_done.add(label)
+            else:
+                ax.scatter(n, d, color=c, zorder=3)
+
+    ax.set_xlabel('Number of bilayers (n)')
+    ax.set_ylabel('Interbilayer distance (Å)')
+    ax.set_xticks(range(2, max_layers + 1))
+    ax.xaxis.set_major_locator(MultipleLocator(1))
+    ax.legend()
+    ax.grid()
+    plt.tight_layout()
+    plt.show()
+
+
+
+
+
 
 # VISUALIZE
 
-def plotly_3d_atoms(H_pos, O_pos, cell=None):
+def plotly_3d_atoms(H_pos, O_pos, Au_pos=None, cell=None, projection='perspective', eye=(1.5, 1.5, 1.0)):
     data = []
 
     if H_pos is not None and len(H_pos) > 0:
         data.append(go.Scatter3d(
             x=H_pos[:, 0], y=H_pos[:, 1], z=H_pos[:, 2],
             mode='markers',
-            marker=dict(size=3, color='blue'),
+            marker=dict(
+                size=4, color='white',
+                line=dict(color='black', width=1)
+            ),
             name='Hydrogen'
         ))
 
@@ -341,23 +425,36 @@ def plotly_3d_atoms(H_pos, O_pos, cell=None):
         data.append(go.Scatter3d(
             x=O_pos[:, 0], y=O_pos[:, 1], z=O_pos[:, 2],
             mode='markers',
-            marker=dict(size=4, color='red'),
+            marker=dict(
+                size=5, color='red',
+                line=dict(color='black', width=1)
+            ),
             name='Oxygen'
         ))
 
+    if Au_pos is not None and len(Au_pos) > 0:
+        data.append(go.Scatter3d(
+            x=Au_pos[:, 0], y=Au_pos[:, 1], z=Au_pos[:, 2],
+            mode='markers',
+            marker=dict(
+                size=6, color='gold',
+                line=dict(color='black', width=1)
+            ),
+            name='Gold'
+        ))
+
+    # Cell box drawing
     if cell is not None:
         corners = np.array([
             [0, 0, 0], cell[0], cell[1], cell[2],
             cell[0] + cell[1], cell[0] + cell[2], cell[1] + cell[2],
             cell[0] + cell[1] + cell[2],
         ])
-
         edge_indices = [
             (0, 1), (0, 2), (0, 3), (1, 4), (1, 5),
             (2, 4), (2, 6), (3, 5), (3, 6),
             (4, 7), (5, 7), (6, 7)
         ]
-
         for i, j in edge_indices:
             data.append(go.Scatter3d(
                 x=[corners[i][0], corners[j][0]],
@@ -367,11 +464,11 @@ def plotly_3d_atoms(H_pos, O_pos, cell=None):
                 line=dict(color='gray', width=2),
                 showlegend=False
             ))
-
         min_xyz = np.min(corners, axis=0)
         max_xyz = np.max(corners, axis=0)
     else:
-        all_points = np.concatenate([H_pos, O_pos]) if O_pos is not None else H_pos
+        all_points = [arr for arr in [H_pos, O_pos, Au_pos] if arr is not None and len(arr) > 0]
+        all_points = np.concatenate(all_points)
         min_xyz = np.min(all_points, axis=0)
         max_xyz = np.max(all_points, axis=0)
 
@@ -381,8 +478,14 @@ def plotly_3d_atoms(H_pos, O_pos, cell=None):
             xaxis=dict(title='X (Å)', range=[min_xyz[0], max_xyz[0]]),
             yaxis=dict(title='Y (Å)', range=[min_xyz[1], max_xyz[1]]),
             zaxis=dict(title='Z (Å)', range=[min_xyz[2], max_xyz[2]]),
-            aspectmode='data'
+            aspectmode='data',
+            camera=dict(
+                projection=dict(type=projection),
+                eye=dict(x=eye[0], y=eye[1], z=eye[2])
+            )
         ),
         margin=dict(l=0, r=0, b=0, t=30)
     )
     fig.show()
+
+
