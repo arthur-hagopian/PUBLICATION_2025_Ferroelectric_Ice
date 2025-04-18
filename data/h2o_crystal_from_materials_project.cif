@@ -1,0 +1,50 @@
+data_h2o_crystal_from_materials_project
+_audit_creation_date              2024-10-31
+_audit_creation_method            'Materials Studio'
+_symmetry_space_group_name_H-M    'P63CM'
+_symmetry_Int_Tables_number       185
+_symmetry_cell_setting            hexagonal
+loop_
+_symmetry_equiv_pos_as_xyz
+  x,y,z
+  -y,x-y,z
+  -x+y,-x,z
+  -x,-y,z+1/2
+  y,-x+y,z+1/2
+  x-y,x,z+1/2
+  -y,-x,z+1/2
+  -x+y,y,z+1/2
+  x,x-y,z+1/2
+  y,x,z
+  x-y,-y,z
+  -x,-x+y,z
+_cell_length_a                    7.6036
+_cell_length_b                    7.6036
+_cell_length_c                    7.1430
+_cell_angle_alpha                 90.0000
+_cell_angle_beta                  90.0000
+_cell_angle_gamma                 120.0000
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+_atom_site_adp_type
+_atom_site_occupancy
+H0     H     0.12246   0.33628   0.47885   0.00000  Uiso   1.00
+H1     H    -0.00000   0.33082   0.19643   0.00000  Uiso   1.00
+H2     H    -0.00000   0.45235   0.01065   0.00000  Uiso   1.00
+O3     O    -0.00000   0.32664   0.05566   0.00000  Uiso   1.00
+O4     O    -0.00000   0.33940   0.42957   0.00000  Uiso   1.00
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_distance
+_geom_bond_site_symmetry_2
+_ccdc_geom_bond_type
+H0     O4      1.007   .     S
+H1     O3      1.006   .     S
+H2     O3      1.008   .     S
+O4     H0      1.007   12    S
