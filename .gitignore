@@ -1,0 +1,5 @@
+# Ignore everything except data and notebook
+images/
+slides/
+publication/
+data/**/CHGCAR*
