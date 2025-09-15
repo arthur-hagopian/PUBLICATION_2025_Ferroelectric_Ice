@@ -17,35 +17,44 @@ import math
 import sys
 import matplotlib_parameters
 
-# Get number of file(s) to plot
-files_to_plot = input("Number of file(s) to plot : ")
-files_to_plot = int(files_to_plot)
+fig, ax = plt.subplots()
 
-# Loop on the number of files / Get data
-i = 0
-files_names = []
-list_z_values = []
-list_projected_values = []
-while i < files_to_plot:
-    file_name = input("File number %s : " % (i+1))
-    files_names.append(file_name)
-    data = np.loadtxt(file_name)
+files_to_plot = ["locpot_1.dat",
+                 "locpot_2.dat",
+                 "locpot_3.dat",
+                 "locpot_4.dat",
+                 "locpot_5.dat",
+                 "locpot_6.dat",
+                 ]
+
+colors = [
+        "#377eb8",
+        "#e41a1c",
+        "#4daf4a",
+        "#ff7f00",
+        "#984ea3",
+        "#a65628",
+        ]
+
+labels = ['Bilayer 1','Bilayer 2','Bilayer 3','Bilayer 4','Bilayer 5','Bilayer 6']
+
+# LOOP
+for index,file in enumerate(files_to_plot):
+    data = np.loadtxt(file)
     z_values = np.array(data[:, 0])
     projected_values = np.array(data[:, 1])
     proj_first = projected_values[0]
     projected_values = [proj - proj_first for proj in projected_values]
-    list_z_values.append(z_values)
-    list_projected_values.append(projected_values)
-    i += 1
+    if index == 0 or index == 1:
+        plt.plot(z_values, projected_values, label=labels[index], color=colors[index])
+    else:
+        plt.plot(z_values, projected_values, label=labels[index], color=colors[index], linewidth=1.5, linestyle='--')
 
-fig, ax = plt.subplots(1, figsize=(7, 5))
 
-i = 0
-while i < files_to_plot:
-    plt.plot(list_z_values[i], list_projected_values[i], label=files_names[i])
-    i += 1
-
-plt.grid()
-plt.legend()
+plt.xlim(4,33)
+plt.xlabel("Z-axis (Å)")
+plt.ylabel("Electrostatic potential (eV)")
+plt.grid(False)
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=3)
 plt.show()
 

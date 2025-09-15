@@ -1,0 +1,13 @@
+#!/bin/bash
+#SBATCH --nodes=1               # 1 node reserved 
+#SBATCH --ntasks-per-node=40    # 40 MPI tasks
+#SBATCH --cpus-per-task=1       # 1 OpenMP thread
+#SBATCH --hint=nomultithread    # Disable hyperthreading
+#SBATCH --job-name=VASP
+#SBATCH --output %x.o%j         # Output file %x is the jobname, %j the jobid 
+#SBATCH --error=%x.o%j          # Error file
+#SBATCH --time=10:00:00         # Expected runtime  HH:MM:SS (max 100h)
+     
+module purge
+module load vasp/5.4.4-mpi-cuda
+srun vasp_std

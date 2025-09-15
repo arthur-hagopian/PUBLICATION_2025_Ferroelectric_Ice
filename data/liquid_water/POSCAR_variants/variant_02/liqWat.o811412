@@ -1,0 +1,66 @@
+Loading vasp/5.4.4-mpi-cuda
+  Loading requirement: gcc/8.5.0 intel-compilers/19.0.4 cuda/10.1.1
+    intel-mpi/2019.4
+ running on   40 total cores
+ distrk:  each k-point on   40 cores,    1 groups
+ distr:  one band on   20 cores,    2 groups
+ using from now: INCAR     
+ vasp.5.4.4.18Apr17-6-g9f103f2a35 (build Dec 06 2019 17:20:26) complex          
+  
+ POSCAR found type information on POSCAR  O  H 
+ POSCAR found :  2 types and      93 ions
+ scaLAPACK will be used
+
+ ----------------------------------------------------------------------------- 
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|      For optimal performance we recommend to set                            |
+|        NCORE= 4 - approx SQRT( number of cores)                             |
+|      NCORE specifies how many cores store one orbital (NPAR=cpu/NCORE).     |
+|      This setting can  greatly improve the performance of VASP for DFT.     |
+|      The default,   NCORE=1            might be grossly inefficient         |
+|      on modern multi-core architectures or massively parallel machines.     |
+|      Do your own testing !!!!                                               |
+|      Unfortunately you need to use the default for GW and RPA calculations. |
+|      (for HF NCORE is supported but not extensively tested yet)             |
+|                                                                             |
+ ----------------------------------------------------------------------------- 
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ FFT: planning ...
+ WAVECAR not read
+ WARNING: chargedensity file is incomplete
+ WARNING: random wavefunctions but no delay for mixing, default for NELMDL
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+RMM:   1     0.331774491950E+04    0.33177E+04   -0.74347E+04 86688   0.878E+02
+RMM:   2     0.104979175308E+04   -0.22680E+04   -0.24339E+04 86688   0.253E+02
+RMM:   3     0.873336674303E+02   -0.96246E+03   -0.10237E+04 86688   0.186E+02
+RMM:   4    -0.343060423263E+03   -0.43039E+03   -0.36594E+03 86688   0.130E+02
+RMM:   5    -0.450704173623E+03   -0.10764E+03   -0.97819E+02 86688   0.684E+01
+RMM:   6    -0.478446998770E+03   -0.27743E+02   -0.25274E+02 86688   0.354E+01
+RMM:   7    -0.485816626864E+03   -0.73696E+01   -0.70517E+01 86688   0.180E+01
+RMM:   8    -0.488030303201E+03   -0.22137E+01   -0.20845E+01 86688   0.962E+00
+RMM:   9    -0.488901005875E+03   -0.87070E+00   -0.85470E+00221679   0.510E+00
+RMM:  10    -0.489021729344E+03   -0.12072E+00   -0.11367E+00235754   0.148E+00
+RMM:  11    -0.489023913002E+03   -0.21837E-02   -0.38173E-02221806   0.312E-01
+RMM:  12    -0.489024549112E+03   -0.63611E-03   -0.62391E-03223011   0.811E-02    0.396E+01
+RMM:  13    -0.447719111480E+03    0.41305E+02   -0.14618E+02208596   0.243E+01    0.153E+01
+RMM:  14    -0.446515251624E+03    0.12039E+01   -0.53560E+00217233   0.414E+00    0.963E+00
+RMM:  15    -0.446048734006E+03    0.46652E+00   -0.15996E+00214341   0.353E+00    0.130E+00
+RMM:  16    -0.446012053971E+03    0.36680E-01   -0.25195E-01221371   0.896E-01    0.507E-01
+RMM:  17    -0.446026555361E+03   -0.14501E-01   -0.49905E-02207784   0.425E-01    0.355E-01
+RMM:  18    -0.446024614321E+03    0.19410E-02   -0.96114E-03215398   0.230E-01    0.651E-02
+RMM:  19    -0.446024318930E+03    0.29539E-03   -0.10549E-03217831   0.625E-02    0.264E-02
+RMM:  20    -0.446024235180E+03    0.83750E-04   -0.26340E-04218649   0.270E-02    0.167E-02
+RMM:  21    -0.446024213974E+03    0.21206E-04   -0.12253E-04220048   0.199E-02    0.144E-02
+RMM:  22    -0.446024206303E+03    0.76709E-05   -0.30759E-05219781   0.107E-02    0.305E-03
+RMM:  23    -0.446024205851E+03    0.45264E-06   -0.21267E-06164688   0.295E-03
+   1 F= -.44910014E+03 E0= -.44910014E+03  d E =-.527681E-10

@@ -1,0 +1,33 @@
+SYSTEM = ice
+
+# General
+PREC = Normal   # Precision of grids
+ENCUT = 400   # Cutoff energy plane wave basis in eV
+LREAL = AUTO   # Projection operators in real space or reciprocal space
+LWAVE = .FALSE.   # Wavefunctions written to WAVECAR
+LCHARG = .FALSE.   # Charge density files written
+LVTOT = .TRUE.   # Total local potential written to LOCPOT
+LVHAR = .TRUE.   # Electrostatic contributions only written to LOCPOT
+NWRITE = 0   # Verbosity of OUTCAR
+NPAR = 2
+
+# Electronic parameters
+ISTART = 1   # Read WAVECAR (1 = Try to read, else from scratch)
+ICHARG = 1  # Initial charge density (1 = from CHGCAR)
+EDIFF = 1E-6   # SCF break condition (energy change)
+ALGO = VeryFast   # Electronic minimisation algorithm
+IMIX = 4  # Mixing method for charge density
+MAXMIX = 40 # Maximum number steps stored in Broyden mixer
+NELM = 500   # Maximum number SCF steps
+NELMIN = 4   # Minimum number SCF steps
+ISMEAR = -1   # Type of orbital smearing (-1 = Fermi smearing)
+SIGMA = 0.05   # Width of smearing in eV
+#LORBIT = 11
+
+# Ionic parameters
+IBRION = -1   # Method of ion update/movement (0 = molecular dynamics)
+ISIF = 2
+POTIM = 0.5   # Time step (in fs) in molecular dynamics
+NSW = 0   # Maximum number ionic steps
+IVDW = 11
+

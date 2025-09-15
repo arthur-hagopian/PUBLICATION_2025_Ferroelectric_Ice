@@ -38,13 +38,14 @@ oxygen_charges = [-x + 6 for x in oxygen_charges]
 
 hyd_plus_ox = [2*h + o for h,o in zip(hydrogen_charges,oxygen_charges)]
 
-colors = ['blue',
-          'blue','red',
-          'blue','red','green',
-          'blue','red','green','orange',
-          'blue','red','green','orange','purple',
-          'blue','red','green','orange','purple','pink',
-          ]
+colors = [
+    "#377eb8",
+    "#377eb8","#e41a1c",
+    "#377eb8","#e41a1c","#4daf4a",
+    "#377eb8","#e41a1c","#4daf4a","#ff7f00",
+    "#377eb8","#e41a1c","#4daf4a","#ff7f00","#984ea3",
+    "#377eb8","#e41a1c","#4daf4a","#ff7f00","#984ea3","#a65628",
+    ]
 
 labels = ['Bilayer 1','Bilayer 2','Bilayer 3','Bilayer 4','Bilayer 5','Bilayer 6']
 
@@ -74,8 +75,7 @@ for i in range(len(number_bilayer)):
 
 # Plot H2O Charges (Hydrogen + Oxygen)
 axs[2].set_xlabel('Number of Bilayers')
-axs[2].set_ylabel('H$_2$O Charge (e)')
-axs[2].xaxis.set_minor_locator(AutoMinorLocator())
+axs[2].set_ylabel('Charge (e)')
 
 for i in range(len(number_bilayer)):
     marker_style = 'D' if i % 2 == 0 else '*'  # Alternate between diamond and star markers
