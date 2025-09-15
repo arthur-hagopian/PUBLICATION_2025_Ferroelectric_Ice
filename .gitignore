@@ -1,5 +1,26 @@
-# Ignore everything except data and notebook
+# ----------------------
+# Jupyter
+# ----------------------
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ----------------------
+# Python
+# ----------------------
+__pycache__/
+
+# ----------------------
+# Project-specific data folders
+# ----------------------
+data/ice_free_standing/**/CHGCAR*
+data/ice_supported_Au_111/**/CHGCAR*
+data/liquid_water/POSCAR_variants/**/CHGCAR
+data/single_water_molecule/CHGCAR*
+
+# ----------------------
+# Local folders not to track
+# ----------------------
 images/
-slides/
 publication/
-data/**/CHGCAR*
+slides/
+
