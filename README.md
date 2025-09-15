@@ -1,4 +1,4 @@
-# PUBLICATION Ferroelectric Ice (2025) — Supporting Data & Notebooks
+# Ferroelectric Ice (2025)
 
 This repository contains the data and analysis scripts associated with the publication:
 
@@ -11,9 +11,8 @@ DOI: [10.1021/acs.jctc.5c00814](https://pubs.acs.org/doi/full/10.1021/acs.jctc.5
 
 ## What’s Inside
 
-- **Data**: VASP outputs and structural variants (CHGCAR, POSCAR, etc.) used in the study.  
-- **Notebooks**: Jupyter notebooks for post-processing, plotting, and figure generation.  
-- **Figures**: Example images and plots used in the paper.  
+- **Data**: VASP inputs and outputs (POSCAR, CONTCAR, DOSCAR, etc.) used in the study.  
+- **Notebook**: Jupyter notebook for post-processing, plotting, and figure generation.  
 
 The aim is to provide transparency and allow other researchers to **reproduce figures, verify results, and reuse workflows**.
 
@@ -26,3 +25,12 @@ The aim is to provide transparency and allow other researchers to **reproduce fi
    git clone https://github.com/arthur-hagopian/PUBLICATION_2025_Ferroelectric_Ice.git
    cd PUBLICATION_2025_Ferroelectric_Ice
 
+2. Install Python dependencies (if not already available):
+   ```bash
+   pip install numpy matplotlib jupyter
+
+3. Open the notebooks to explore the analysis:
+   ```bash
+   jupyter notebook
+
+4. Run the notebooks to reproduce plots and calculations.
