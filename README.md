@@ -27,10 +27,14 @@ The aim is to provide transparency and allow other researchers to **reproduce fi
 
 2. Install Python dependencies (if not already available):
    ```bash
-   pip install numpy matplotlib jupyter
+   pip install pandas numpy matplotlib plotly jupyter
 
 3. Open the notebooks to explore the analysis:
    ```bash
    jupyter notebook
 
 4. Run the notebooks to reproduce plots and calculations.
+
+## Contact
+
+For questions or collaborations: **arth.hagopian@gmail.com**
