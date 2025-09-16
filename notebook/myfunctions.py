@@ -29,14 +29,16 @@ def read_contcar(filename):
     with open(filename, 'r') as f:
         lines = f.readlines()
 
-    header = lines[:9]
-    
     # Extract element symbols and number of atoms per element
-    element_symbols = header[5].split()
-    element_counts = list(map(int, header[6].split()))
-    
+    element_symbols = lines[5].split()
+    element_counts = list(map(int, lines[6].split()))
     total_atoms = sum(element_counts)
-    start_index = 9
+
+    if lines[7].lower().startswith("selective"):
+        start_index = 9
+    else:
+        start_index = 8
+
     end_index = start_index + total_atoms
 
     # Read atomic positions
